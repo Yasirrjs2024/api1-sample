@@ -19,8 +19,8 @@ jobs:
           java-version: 21
           cache: maven
       # 3️⃣ Build and verify Spring Boot app
-      - name: Build app
-        run: mvn clean package -DskipTests
+      - name: Build and run JUnit tests
+        run: mvn clean verify
       # 4️⃣ Build Docker image (no push)
       - name: Build Docker image
         run: docker build -t api1-sample:latest .
