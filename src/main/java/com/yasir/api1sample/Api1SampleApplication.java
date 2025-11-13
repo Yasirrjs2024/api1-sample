@@ -20,4 +20,9 @@ public class Api1SampleApplication {
         var rnd = ThreadLocalRandom.current().nextInt(0, 1000);
         return "Hello from api1-sample! Random = " + rnd;
     }
+    // Simple health check endpoint for CBHCloud
+    @GetMapping("/healthz")
+    public String health() {
+        return "OK";
+    }
 }
