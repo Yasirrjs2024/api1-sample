@@ -11,6 +11,10 @@ public class Api1SampleApplication {
     public static void main(String[] args) {
         SpringApplication.run(Api1SampleApplication.class, args);
     }
+    @GetMapping("/")
+    public String home() {
+        return "API is running. Try /hello";
+    }
     @GetMapping("/hello")
     public String hello() {
         var rnd = ThreadLocalRandom.current().nextInt(0, 1000);
