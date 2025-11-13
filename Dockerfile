@@ -15,4 +15,4 @@ COPY --from=build /app/target/*.jar app.jar
 ENV PORT=8080
 EXPOSE 8080
 # Force Spring Boot to bind to CBH Cloud's port
-ENTRYPOINT ["java", "-Dserver.port=${PORT}", "-jar", "/app/app.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar /app/app.jar --server.port=$PORT"]
