@@ -21,6 +21,16 @@ jobs:
       # Build and verify Spring Boot app
       - name: Build and run JUnit tests
         run: mvn clean verify
-      # Build Docker image (no push)
+
+      # Login to Docker Hub
+      - name: Docker Hub login
+        run: |
+          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      # Build Docker image
       - name: Build Docker image
-        run: docker build -t api1-sample:latest .
+        run: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_IMAGE }}:latest .
+
+      # Push Docker image
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_IMAGE }}:latest
