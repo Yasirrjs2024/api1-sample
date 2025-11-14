@@ -18,7 +18,7 @@ public class Api1SampleApplication {
     @GetMapping("/hello")
     public String hello() {
         var rnd = ThreadLocalRandom.current().nextInt(0, 1000);
-        return "Hello from api1-sample! Random = " + rnd;
+        return "Hello from Yasir Riyadh / KTH!\nMy first deployment in CBH Cloud.\nTest random number = " + rnd;
     }
     // Simple health check endpoint for CBHCloud
     @GetMapping("/healthz")

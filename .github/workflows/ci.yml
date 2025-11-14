@@ -1,34 +1,26 @@
-name: CI/CD to CBH Cloud (api1-sample)
+name: Simple CI (api1-sample)
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 jobs:
-  build-test-push:
+  build-test-docker:
     runs-on: ubuntu-latest
     steps:
       # Checkout code
       - name: Checkout repository
         uses: actions/checkout@v4
-      # Setup JDK 21
+      # Set up JDK 21 (for Spring Boot)
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
           cache: maven
-      # Build Spring Boot app
-      - name: Build project
-        run: mvn clean package -DskipTests
-      # Login to CBH Docker Registry
-      - name: Docker login to CBH Registry
-        run: |
-          echo "${{ secrets.CBH_PASSWORD }}" | docker login ${{ secrets.CBH_REGISTRY }} \
-            -u "${{ secrets.CBH_USERNAME }}" --password-stdin
-      # Build Docker image
+      # Build and verify Spring Boot app
+      - name: Build and run JUnit tests
+        run: mvn clean verify
+      # Build Docker image (no push)
       - name: Build Docker image
-        run: |
-          docker build -t ${{ secrets.CBH_IMAGE }}:latest .
-      # Push image to CBH registry
-      - name: Push Docker image
-        run: |
-          docker push ${{ secrets.CBH_IMAGE }}:latest
+        run: docker build -t api1-sample:latest .
